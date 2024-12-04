@@ -8,7 +8,7 @@ from users.serializers import UserRegistrationSerializer, RentSpaceSerializer
 from users.models import RentSpace, Application
 
 
-class AuthenticateOnlyUser(BasePermission):
+class AuthenticateOnlyAdmin(BasePermission):
     def has_permission(self, request, view):
         if request.user and request.user.is_authenticated:
             if request.user.is_admin:
@@ -19,5 +19,21 @@ class AuthenticateOnlyUser(BasePermission):
         return False
 
 
-class UserRegistrationView(RegisterView):
-    serializer_class = UserRegistrationSerializer
+class RentSpaceApproveView(APIView):
+    permission_classes = [AuthenticateOnlyAdmin]
+
+    def get(self, request):
+        instances = RentSpace.objects.filter(verified=False)
+        serializer = RentSpaceSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        instance = RentSpace.objects.get(id=pk)
+        instance.delete()
+        return Response({"text": "Rent space deleted successfully."})
+
+    def put(self, request, pk):
+        instance = RentSpace.objects.get(id=pk)
+        instance.verified = True
+        instance.save()
+        return Response({"text": "Rent space approved successfully."})
