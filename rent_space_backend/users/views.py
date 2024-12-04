@@ -56,8 +56,13 @@ class RentSpaceView(APIView):
         return Response({"text": "Rent space deleted successfully."})
 
 
-class PublicPetView(APIView):
+class PublicRentSpaceView(APIView):
     def get(self, request):
+        if "id" in request.query_params:
+            instance = RentSpace.objects.get(id=request.query_params["id"])
+            serializer = RentSpaceSerializer(instance)
+            return Response(serializer.data)
+
         instances = RentSpace.objects.filter(verified=True)
         serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
