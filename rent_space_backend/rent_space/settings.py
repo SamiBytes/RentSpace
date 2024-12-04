@@ -174,8 +174,8 @@ SITE_ID = 1
 
 
 # ACCOUNT_ADAPTER = "all_auth_extended.all_auth_extended.AccountAdapter"
-AUTH_USER_MODEL = "administrator.AuthUser"
 
+AUTH_USER_MODEL = "administrator.RoleUserModel"
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True

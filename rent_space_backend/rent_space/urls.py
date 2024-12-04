@@ -27,7 +27,7 @@ from dj_rest_auth.views import (
     PasswordChangeView,
 )
 from django.views.generic import TemplateView
-from administrator.views import CustomLoginView
+from administration.views import CustomLoginView
 
 
 urlpatterns = [
