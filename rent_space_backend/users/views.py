@@ -22,44 +22,58 @@ class UserRegistrationView(RegisterView):
     serializer_class = UserRegistrationSerializer
 
 
-# create CRUD API for Pet
-class PetView(APIView):
+class RentSpaceView(APIView):
     permission_classes = [AuthenticateOnlyUser]
 
     def get(self, request):
-        # get individual pet
         if "id" in request.query_params:
-            pet = RentSpace.objects.get(id=request.query_params["id"])
-            serializer = RentSpaceSerializer(pet)
+            instance = RentSpace.objects.get(id=request.query_params["id"])
+            serializer = RentSpaceSerializer(instance)
             return Response(serializer.data)
 
-        pets = RentSpace.objects.filter(user=request.user)
-        serializer = RentSpaceSerializer(pets, many=True)
+        instances = RentSpace.objects.filter(user=request.user)
+        serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = RentSpaceSerializer(data=request.data, context={"request": request})
+        serializer = RentSpaceSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            RentSpace.objects.create(**serializer.validated_data, user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk):
-        pet = Pet.objects.get(id=pk)
-        serializer = PetSerializer(pet, data=request.data)
+        instance = RentSpace.objects.get(id=pk)
+        serializer = RentSpaceSerializer(instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        pet = Pet.objects.get(id=pk)
-        pet.delete()
-        return Response({"message": "Pet deleted successfully."})
+        instance = RentSpace.objects.get(id=pk)
+        instance.delete()
+        return Response({"text": "Rent space deleted successfully."})
 
 
 class PublicPetView(APIView):
     def get(self, request):
-        pets = Pet.objects.filter(approved=True)
-        serializer = PetSerializer(pets, many=True)
+        instances = RentSpace.objects.filter(verified=True)
+        serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
+
+
+class ApplicationView(APIView):
+    permission_classes = [AuthenticateOnlyUser]
+
+    def get(self, request):
+        instances = Application.objects.filter(user=request.user)
+        serializer = RentSpaceSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = RentSpaceSerializer(data=request.data)
+        if serializer.is_valid():
+            Application.objects.create(**serializer.validated_data, user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
