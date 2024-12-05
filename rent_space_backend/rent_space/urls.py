@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
-from administration.views import CustomConfirmEmailView
+from administration.views import NewCustomConfirmEmailView
 from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework_simplejwt.views import TokenVerifyView
 from dj_rest_auth.views import (
@@ -35,7 +35,7 @@ urlpatterns = [
     path("rest-auth/login/", CustomLoginView.as_view(), name="login_view"),
     path(
         "rest-auth/registration/account-confirm-email/<str:key>/",
-        CustomConfirmEmailView.as_view(),
+        NewCustomConfirmEmailView.as_view(),
         name="account_email_verification_sent",
     ),
     path("rest-auth/", include("dj_rest_auth.urls")),
