@@ -27,12 +27,12 @@ from dj_rest_auth.views import (
     PasswordChangeView,
 )
 from django.views.generic import TemplateView
-from administration.views import CustomLoginView
+from administration.views import NewCustomLoginView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("rest-auth/login/", CustomLoginView.as_view(), name="login_view"),
+    path("rest-auth/login/", NewCustomLoginView.as_view(), name="login_view"),
     path(
         "rest-auth/registration/account-confirm-email/<str:key>/",
         NewCustomConfirmEmailView.as_view(),

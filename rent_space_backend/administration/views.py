@@ -8,6 +8,10 @@ from users.serializers import UserRegistrationSerializer, RentSpaceSerializer
 from users.models import RentSpace, Application
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from allauth.account.views import ConfirmEmailView
+from allauth.account.models import EmailConfirmationHMAC, EmailConfirmation
+from django.shortcuts import redirect
+from django.http import HttpResponse
 
 
 class AuthenticateOnlyAdmin(BasePermission):
@@ -21,7 +25,7 @@ class AuthenticateOnlyAdmin(BasePermission):
         return False
 
 
-class CustomLoginView(APIView):
+class NewCustomLoginView(APIView):
     def post(self, request, *args, **kwargs):
         # Extract email and password from the request data
         email = request.data.get("email")
@@ -53,6 +57,25 @@ class CustomLoginView(APIView):
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
+
+
+class NewCustomConfirmEmailView(ConfirmEmailView):
+
+    def get(self, *args, **kwargs):
+        token = kwargs["key"]
+        try:
+            email_confirmation = EmailConfirmationHMAC.from_key(token)
+        except EmailConfirmation.DoesNotExist:
+            try:
+                email_confirmation = EmailConfirmation.objects.get(key=token.lower())
+            except EmailConfirmation.DoesNotExist:
+                email_confirmation = None
+
+        if email_confirmation:
+            email_confirmation.confirm(self.request)
+            return redirect("/confirmation-success")
+        else:
+            return HttpResponse("Invalid or expired confirmation token", status=400)
 
 
 class RentSpaceApproveView(APIView):
