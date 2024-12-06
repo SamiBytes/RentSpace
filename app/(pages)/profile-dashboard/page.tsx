@@ -1,3 +1,4 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Profile from "./profile/Profile";
 import UserDashboard from "../(dashboard)/user-dashboard/UserDashboard";
@@ -66,8 +67,7 @@ export default () => {
             <TabsTrigger value="Dashboard">Dashboard</TabsTrigger>
           </TabsList>
           <TabsContent value="profile">
-            <Profile data={userData}
-            />
+            <Profile data={userData} />
           </TabsContent>
           <TabsContent value="Dashboard">
             {isAdmin ? <AdminDashboard /> : <UserDashboard />}

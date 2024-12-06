@@ -14,19 +14,59 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default () => {
+export default ({ data }: { data: any }) => {
   const [profile, setProfile] = useState({
-    name: "Night Fury",
-    location: "Dhaka, Bangladesh",
-    contact: "+880123456789",
-    address: "123 Main St, Dhaka, Bangladesh",
+    name: "N/A",
+    contact: "N/A",
+    address: "N/A",
   });
+
+  useEffect(() => {
+    console.log("-----------------------------------");
+    console.log(data.name);
+    setProfile({
+      name: data.name,
+      contact: data.contact,
+      address: data.address,
+    });
+  }, [data]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setProfile((prev) => ({ ...prev, [id]: value }));
   };
+
+  const submitProfile = () => {
+    // Send the updated data to the server
+    const access_token = JSON.parse(localStorage.getItem("user_data") || "{}")["access_token"];
+    axios
+      .put(
+        `${process.env.NEXT_PUBLIC_ROOT_URL}/users/profile/`,
+        {
+          name: profile.name,
+          address: profile.address,
+          contact: profile.contact,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        // Refresh the page after the API call succeeds
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+      });
+
+  };
+
 
   return (
     <Dialog>
@@ -57,17 +97,6 @@ export default () => {
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="location" className="text-right">
-              Location
-            </Label>
-            <Input
-              id="location"
-              value={profile.location}
-              onChange={handleInputChange}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="contact" className="text-right">
               Contact
             </Label>
@@ -93,13 +122,13 @@ export default () => {
         <DialogFooter>
           <Button
             className="bg-[#008966]"
-            onClick={() => console.log("Profile updated:", profile)}
+            onClick={() => submitProfile()}
             type="submit"
           >
             Save changes
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 };

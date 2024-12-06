@@ -24,12 +24,28 @@ import {
 
 import Map from "./Map";
 import dynamic from 'next/dynamic';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
   ssr: false,
 });
 
 const Tabss = () => {
+  const [pet, setPet] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/adoption/public-pet/`,
+      )
+      .then((res) => {
+        setPet(res.data);
+      })
+
+  }, []);
+
+
   return (
     <div className="max-w-7xl mx-auto mt-8">
       {/* Tabs */}
@@ -69,8 +85,7 @@ const Tabss = () => {
 
         <TabsContent value="Map">
           {/* Map Component */}
-
-          <MapComponent />
+          {/* <MapComponent /> */}
         </TabsContent>
       </Tabs>
     </div>
