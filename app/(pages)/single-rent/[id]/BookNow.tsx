@@ -30,7 +30,7 @@ export default function AppointmentDialog() {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="bg-green-600 flex items-center text-white px-6 py-2 rounded-md hover:bg-green-700 transition">
+        <div className="bg-[#008966] flex items-center text-white px-6 py-2 rounded-md hover:bg-green-700 transition">
           <BsCashCoin className="mr-2" /> Book Now
         </div>
       </DialogTrigger>
@@ -100,7 +100,7 @@ export default function AppointmentDialog() {
 
           {/* Submit Button */}
           <div>
-            <Button type="submit">Confirm</Button>
+            <Button className="bg-[#008966]" type="submit">Confirm</Button>
           </div>
         </form>
       </DialogContent>

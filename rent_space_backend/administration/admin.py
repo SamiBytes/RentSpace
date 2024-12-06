@@ -4,4 +4,8 @@ from administration.models import RoleUserModel
 
 @admin.register(RoleUserModel)
 class RoleUserAdmin(admin.ModelAdmin):
-    list_display = ["is_normal_user", "is_admin", "username"]
+    list_display = [
+        "username",
+        "is_normal_user",
+        "is_admin",
+    ]

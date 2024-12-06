@@ -4,7 +4,16 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+
 import { Home, Menu, PawPrint, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -70,21 +79,11 @@ const NavItems = () => {
         <NavigationMenuItem>
           <Link
             className="inline-flex h-9 items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground focus:outline-none"
-            href="/profile"
+            href="/profile-dashboard"
           >
             Profile/Dashboard
           </Link>
         </NavigationMenuItem>
-
-        {/* contact Us */}
-        {/* <NavigationMenuItem>
-          <Link
-            className="inline-flex h-9 items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground focus:outline-none"
-            href="/contact"
-          >
-            Contact Us
-          </Link>
-        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -101,38 +100,37 @@ const MobileNav = () => {
         </Button>
       </SheetTrigger>
       <SheetContent>
+        <SheetHeader>
+          <SheetTitle>
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="font-bold">RentSpace</span>
+            </Link>
+          </SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
         <div className="flex flex-col space-y-4 md:hidden">
-          <Link href="/" className="flex items-center space-x-2">
-            <PawPrint className="h-6 w-6" />
-            <span className="font-bold">PetAdopt</span>
-          </Link>
+          
           <nav className="flex flex-col space-y-2">
-            <SheetTrigger asChild className="flex items-start justify-start">
+            <SheetClose asChild className="flex items-start justify-start">
               <Link href="/" className="text-sm hover:underline">
                 Home
               </Link>
-            </SheetTrigger>
+            </SheetClose>
             {isLogin ? (
-              <SheetTrigger asChild className="flex items-start justify-start">
+              <SheetClose asChild className="flex items-start justify-start">
                 <Link
-                  href="/profile"
+                  href="/profile-dashboard"
                   className="text-sm hover:underline"
                 >
                   Profile/Dashboard
                 </Link>
-              </SheetTrigger>
+              </SheetClose>
             ) : null}
-
-            {/* <SheetTrigger asChild className="flex items-start justify-start">
-              <Link href="/contact" className="text-sm hover:underline">
-                contact Us
-              </Link>
-            </SheetTrigger> */}
           </nav>
           {isLogin ? (
             <>
               <SheetTrigger asChild>
-                <Link href="/profile">
+                <Link href="/profile-dashboard">
                   <Button className="w-full" variant="default">
                     <User className="mr-2 h-4 w-4" /> Profile
                   </Button>

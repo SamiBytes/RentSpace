@@ -6,7 +6,7 @@ urlpatterns = [
         "rent-space-approve/", RentSpaceApproveView.as_view(), name="rent_space_approve"
     ),
     path(
-        "rent-space-approve/<int:pk>/",
+        "rent-space-approve/<int:pk>",
         RentSpaceApproveView.as_view(),
         name="rent_space_approve",
     ),

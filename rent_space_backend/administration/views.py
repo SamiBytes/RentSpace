@@ -43,6 +43,8 @@ class NewCustomLoginView(APIView):
 
         # Prepare the response data
         response_data = {
+            "normal_user": user.is_normal_user,
+            "admin": user.is_admin,
             "access": str(refresh_token.access_token),
             "refresh": str(refresh_token),
             "user": {
@@ -52,8 +54,6 @@ class NewCustomLoginView(APIView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
             },
-            "normal_user": user.is_user,
-            "admin": user.is_admin,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)

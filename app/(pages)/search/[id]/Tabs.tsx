@@ -1,3 +1,4 @@
+"use client"
 import {
   Select,
   SelectContent,
@@ -19,6 +20,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
+
+import Map from "./Map";
+import dynamic from 'next/dynamic';
+
+const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
+
+  ssr: false, 
+
+});
 
 const Tabss = () => {
   return (
@@ -60,7 +71,8 @@ const Tabss = () => {
 
         <TabsContent value="Map">
           {/* Map Component */}
-          <div className="h-[500px] w-full bg-red-500"></div>
+          
+          <MapComponent/>
         </TabsContent>
       </Tabs>
     </div>

@@ -16,10 +16,14 @@ export function BackgroundImage() {
 
   return (
     <Carousel plugins={[plugin.current]}>
-      <CarouselContent className="h-[70vh]">
+      <CarouselContent className="h-[60vh] md:h-[70vh] lg:h-[80vh]">
         {images.map((item, index) => (
           <CarouselItem key={index}>
-            <img src={item} className="object-cover" alt="" />
+            <img
+              src={item}
+              className="w-full h-full object-cover"
+              alt={`Slide ${index + 1}`}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
