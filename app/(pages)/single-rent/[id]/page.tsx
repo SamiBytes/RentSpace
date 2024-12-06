@@ -3,18 +3,53 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Phone } from "lucide-react";
 import { FaEnvelope, FaLifeRing, FaPhoneAlt } from "react-icons/fa";
 import Appointment from "./BookNow";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const RentDetails = () => {
-  const rentDetails = {
-    title: "Hotel Prince Natore",
-    location: "Adi Tangail, Natore",
-    description:
-      "A beautiful apartment in the heart of the city, close to popular attractions and transport.",
-    price: 20,
-    people: 2,
-    imageSrc: "/img1.jpg",
-    availableRooms: 2,
-  };
+const RentDetails = ({ params }: { params: any }) => {
+  const [rentDetails, setRentDetails] = useState({
+    "id": 1,
+    "image": "",
+    "address": "",
+    "room_type": "",
+    "room_vacancy": 0,
+    "price_per_day": 0,
+    "description": "",
+    "latitude": 232.212,
+    "longitude": 12.212,
+    "verified": true,
+    "created_at": "",
+    "user": 0,
+  });
+
+  useEffect(() => {
+    const fetchingEncyclopedia = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/public-rent-space/?id=${params.id}`,
+        );
+        console.log(res.data);
+        setRentDetails({
+          id: res.data.id,
+          image: res.data.image,
+          address: res.data.address,
+          room_type: res.data.room_type,
+          room_vacancy: res.data.room_vacancy,
+          price_per_day: res.data.price_per_day,
+          description: res.data.description,
+          latitude: res.data.latitude,
+          longitude: res.data.longitude,
+          verified: res.data.verified,
+          created_at: res.data.created_at,
+          user: res.data.user
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+
+    fetchingEncyclopedia();
+  }, [params.id]);
 
   return (
     <div className="mt-3">

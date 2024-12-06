@@ -32,17 +32,16 @@ const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
 });
 
 const Tabss = () => {
-  const [pet, setPet] = useState([]);
+  const [spaces, setPet] = useState([]);
 
   useEffect(() => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/adoption/public-pet/`,
+        `${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/`,
       )
       .then((res) => {
         setPet(res.data);
       })
-
   }, []);
 
 
@@ -69,15 +68,18 @@ const Tabss = () => {
         <TabsContent value="Hotels" className="p-4 rounded-lg">
           {/* Grid for Cards */}
           <div className="grid grid-cols-1 gap-4">
-            {Array.from({ length: 7 }).map((_, i) => (
+            {spaces.map((space: any, i) => (
               <RentCard
-                imageSrc="/img1.jpg"
-                title="Hotel Prince Natore"
-                location="Adi Tangail, Natore"
-                description="A beautiful apartment in the heart of the city, close to popular attractions and transport."
+                id={space.id}
+                imageSrc={
+                  space.image
+                }
+                title={space.title}
+                location={space.address}
+                description={space.description.length > 30 ? space.description.substring(0, 30) + "..." : space.description}
                 key={i}
-                price={20}
-                people={2}
+                price={space.price_per_day}
+                room={space.room_vacancy}
               />
             ))}
           </div>

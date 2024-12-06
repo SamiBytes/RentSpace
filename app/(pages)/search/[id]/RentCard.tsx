@@ -1,20 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { FaMapMarkerAlt, FaUserFriends } from "react-icons/fa";
+import { MdOutlineBedroomParent } from "react-icons/md";
+
 import Link from "next/link";
 const RentCard = ({
+  id,
   imageSrc,
   title,
   location,
   description,
   price,
-  people,
+  room,
 }: {
+  id: number;
   imageSrc: string;
   title: string;
   location: string;
   description: string;
   price: number;
-  people: number;
+  room: number;
 }) => {
   return (
     <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
@@ -44,8 +48,8 @@ const RentCard = ({
 
           {/* Number of People */}
           <div className="flex items-center text-sm text-gray-500 mt-2">
-            <FaUserFriends className="text-primary mr-2" />
-            {people}-{people + 1} People
+            <MdOutlineBedroomParent className="text-primary mr-2" />
+            {room} Rooms
           </div>
 
           {/* Description */}
@@ -55,7 +59,7 @@ const RentCard = ({
         {/* Price and Action Buttons */}
         <div className="mt-4 flex justify-between items-center">
           <span className="text-lg font-bold text-primary">${price}/night</span>
-          <Link href={"/single-rent/1"}>
+          <Link href={`/single-rent/${id}`}>
             <Button className="bg-[#008966] text-white">View Details</Button>
           </Link>
         </div>
