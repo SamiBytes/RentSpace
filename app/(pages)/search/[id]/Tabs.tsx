@@ -26,9 +26,7 @@ import Map from "./Map";
 import dynamic from 'next/dynamic';
 
 const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
-
-  ssr: false, 
-
+  ssr: false,
 });
 
 const Tabss = () => {
@@ -71,8 +69,8 @@ const Tabss = () => {
 
         <TabsContent value="Map">
           {/* Map Component */}
-          
-          <MapComponent/>
+
+          <MapComponent />
         </TabsContent>
       </Tabs>
     </div>

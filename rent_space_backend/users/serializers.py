@@ -3,6 +3,12 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from users.models import User, Application, RentSpace
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "name", "contact", "address"]
+
+
 # Custom Registration
 class UserRegistrationSerializer(RegisterSerializer):
     user = serializers.PrimaryKeyRelatedField(

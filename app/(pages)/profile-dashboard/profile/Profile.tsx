@@ -1,6 +1,9 @@
 import EditProfie from "./EditProfie";
 
-const Profile = () => {
+const Profile = ({ data }: { data: any }) => {
+
+
+
   return (
     <div className="max-w-md mx-auto relative bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
       <div className="relative">
@@ -12,22 +15,24 @@ const Profile = () => {
         />
       </div>
       <div className="p-6 text-center">
-        <h2 className="text-2xl font-semibold text-gray-800">Night Fury</h2>
+        <h2 className="text-2xl font-semibold text-gray-800">
+          {data.name}
+        </h2>
         {/* <p className="text-gray-600">Software Engineer</p> */}
         <div className="mt-4 space-y-2">
           <div className="flex items-center justify-center gap-2">
-            <span className="text-gray-600 font-medium">Location:</span>
-            <span className="text-gray-800">New York, USA</span>
+            <span className="text-gray-600 font-medium">Address:</span>
+            <span className="text-gray-800">
+              {data.address}
+            </span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <span className="text-gray-600 font-medium">Contact:</span>
-            <span className="text-gray-800">+1 (555) 123-4567</span>
+            <span className="text-gray-800">
+              {data.contact}
+            </span>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-gray-600 font-medium">Address:</span>
-            <span className="text-gray-800">123 Main St, New York, NY</span>
-          </div>
-          <div >
+          <div>
             <EditProfie />
           </div>
         </div>

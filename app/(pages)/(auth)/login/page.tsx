@@ -15,16 +15,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "sonner";
 
 export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<"Tenant" | "Landlord">("Tenant");
+  const [showPassword, setShowPassword] = useState(false);  
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password, role });
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_ROOT_URL}/rest-auth/login/`,
+        {
+          email,
+          password,
+        }
+      );
+
+      const { access, refresh, is_user, is_admin, user } = res.data;
+
+
+      const userData = {
+        access_token: access,
+        refresh_token: refresh,
+        user,
+        is_user,
+        is_admin,
+      };
+      localStorage.setItem("user_data", JSON.stringify(userData));
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+      // console.log("Response", res);
+      toast.success("Login successful");
+
+      setTimeout(() => {
+        location.href = "/";
+      }, 600);
+    } catch (error) {
+      toast.error("Login failed");
+      console.log("Error", error);
+    }
   };
 
   return (
@@ -78,33 +110,6 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-            <div className="space-y-2">
-              <Label>Role</Label>
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="Tenant"
-                    checked={role === "Tenant"}
-                    onChange={() => setRole("Tenant")}
-                    className="form-radio"
-                  />
-                  <span>Tenant</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="Landlord"
-                    checked={role === "Landlord"}
-                    onChange={() => setRole("Landlord")}
-                    className="form-radio"
-                  />
-                  <span>Landlord</span>
-                </label>
-              </div>
-            </div>
             <Button type="submit" className="w-full bg-[#008966]">
               Login
             </Button>
@@ -122,3 +127,6 @@ export default function Page() {
     </div>
   );
 }
+
+
+

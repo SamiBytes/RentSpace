@@ -3,8 +3,12 @@ from rest_framework.permissions import BasePermission
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from users.serializers import UserRegistrationSerializer, RentSpaceSerializer
-from users.models import RentSpace, Application
+from users.serializers import (
+    UserRegistrationSerializer,
+    RentSpaceSerializer,
+    UserSerializer,
+)
+from users.models import RentSpace, Application, User
 
 
 class AuthenticateOnlyUser(BasePermission):
@@ -81,4 +85,20 @@ class ApplicationView(APIView):
         if serializer.is_valid():
             Application.objects.create(**serializer.validated_data, user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileView(APIView):
+    permission_classes = [AuthenticateOnlyUser]
+
+    def get(self, request):
+        user = User.objects.get(user_id=request.user.id)
+        return Response(UserSerializer(user).data)
+
+    def put(self, request):
+        user = User.objects.get(user_id=request.user.id)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

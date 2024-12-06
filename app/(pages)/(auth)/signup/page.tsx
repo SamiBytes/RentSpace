@@ -14,18 +14,49 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { toast } from "sonner";
+import axios from "axios";
+
 
 export default function Page() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [contact, setContact] = useState("");
-  const [location, setLocation] = useState("");
   const [address, setAddress] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log({ email, password, contact, location, address });
+
+    // Check if the passwords match
+    if (password1 !== password2) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_ROOT_URL}/users/register/`,
+        {
+          name,
+          email,
+          contact,
+          address,
+          password1: password1,
+          password2: password2,
+        }
+      );
+
+      toast.success("Verification e-mail sent.");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 700);
+    } catch (error) {
+      toast.error("Registration failed, please register with another email.");
+      console.log("Error", error);
+    }
   };
 
   return (
@@ -39,6 +70,17 @@ export default function Page() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your email"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -57,8 +99,37 @@ export default function Page() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={password1}
+                  onChange={(e) => setPassword1(e.target.value)}
+                  required
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <Eye className="h-4 w-4" />
+                  ) : (
+                    <EyeOff className="h-4 w-4" />
+                  )}
+                  <span className="sr-only">
+                    {showPassword ? "Hide password" : "Show password"}
+                  </span>
+                </Button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Re-type Password</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password2}
+                  onChange={(e) => setPassword2(e.target.value)}
                   required
                 />
                 <Button
@@ -87,17 +158,6 @@ export default function Page() {
                 placeholder="Enter your contact number"
                 value={contact}
                 onChange={(e) => setContact(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                type="text"
-                placeholder="Enter your location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
                 required
               />
             </div>
