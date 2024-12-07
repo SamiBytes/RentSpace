@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 
-export default () => {
+const Page = () => {
   const [userData, setUserData] = useState<any>({
     name: "N/A",
     address: "N/A",
@@ -52,11 +52,6 @@ export default () => {
     setIsLoading(false);
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("user_data");
-    location.reload();
-  }
-
   return (
     <div className="container mx-auto p-4">
       {
@@ -77,3 +72,5 @@ export default () => {
     </div>
   );
 };
+
+export default Page;

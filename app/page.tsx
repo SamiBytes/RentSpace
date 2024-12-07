@@ -1,11 +1,10 @@
 "use client";
 import Features from "./(pages)/Home/Feature";
 import Hero from "./(pages)/Home/Hero";
-import { TabsContent } from "@/components/ui/tabs";
 import RentCard from "./(pages)/search/[id]/RentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-export default () => {
+const Page = () => {
   const [spaces, setPet] = useState([]);
 
   useEffect(() => {
@@ -37,8 +36,7 @@ export default () => {
               id={space.id}
               imageSrc={
                 space.image
-              }
-              title={space.title}
+              }              
               location={space.address}
               description={space.description.length > 30 ? space.description.substring(0, 30) + "..." : space.description}
               key={i}
@@ -52,3 +50,5 @@ export default () => {
     </div>
   );
 };
+
+export default Page;

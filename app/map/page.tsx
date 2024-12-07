@@ -28,7 +28,7 @@ const MapComponent = () => {
         popupAnchor: [0, -32], // Anchor point for the popup
     });
 
-    const [spaces, setSpaces] = useState<any[]>([]);
+    const [spaces, setSpaces] = useState<any>([]);
 
     useEffect(() => {
         // Fetch data from API

@@ -1,7 +1,6 @@
 
 "use client";
 import { useSearchParams } from "next/navigation";
-import Filter from "./Filter";
 import Tabss from "./Tabs";
 
 const Page = () => {

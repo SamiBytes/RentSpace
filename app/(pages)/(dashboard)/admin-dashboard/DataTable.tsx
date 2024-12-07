@@ -62,7 +62,10 @@ const ProductList = () => {
           }
         }
       );
-      toast.success("Space Approved");
+      if (res.status === 200)
+        toast.success("Space Approved");
+      else
+        toast.error("Failed to approve space");
       fetchData();
     }
     catch (error: any) {

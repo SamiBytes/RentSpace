@@ -30,6 +30,10 @@ export default function Page() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    if (password1.length < 6) {
+      toast.error("Password should be atleast 6 characters long.");
+      return;
+    }
     // Check if the passwords match
     if (password1 !== password2) {
       toast.error("Passwords do not match");
@@ -49,10 +53,16 @@ export default function Page() {
         }
       );
 
-      toast.success("Verification e-mail sent.");
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 700);
+      if (res.status === 201) {
+        toast.success("Verification e-mail sent.");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 700);
+      }
+      else {
+        toast.error("Registration failed, please register with another email.");
+      }
+
     } catch (error) {
       toast.error("Registration failed, please register with another email.");
       console.log("Error", error);

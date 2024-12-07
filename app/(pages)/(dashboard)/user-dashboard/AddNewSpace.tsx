@@ -30,8 +30,6 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
   });
 
 
-
-  const [image, setImage] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -92,7 +90,7 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
       toast.success("Added new rental space.");
       fun();
       setIsDialogOpen(false); // Close the dialog after successful submission
-    } catch (error: any) {
+    } catch (_error) {
       toast.error("Failed to add new rental space.");
     }
 
@@ -107,7 +105,6 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
       latitude: 0,
       longitude: 0,
     });
-    setImage(null);
     setLatitude(null);
     setLongitude(null);
   };

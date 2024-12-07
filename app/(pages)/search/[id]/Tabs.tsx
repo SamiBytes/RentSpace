@@ -1,13 +1,4 @@
 "use client"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RentCard from "./RentCard";
 import Filter from "./Filter";
@@ -15,21 +6,15 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
 
-import Map from "./Map";
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
-  ssr: false,
-});
 
 const Tabss = ({ search }: { search: string }) => {
   const [spaces, setSpaces] = useState([]);
@@ -64,8 +49,8 @@ const Tabss = ({ search }: { search: string }) => {
       <Tabs defaultValue="Hotels" className="mb-8">
         <div className="flex items-center justify-between">
           <TabsList>
-            <TabsTrigger value="Hotels">Available Rents</TabsTrigger>            
-          </TabsList>          
+            <TabsTrigger value="Hotels">Available Rents</TabsTrigger>
+          </TabsList>
         </div>
         <Sheet>
           <SheetTrigger className="bg-[#008966] text-white px-2 py-1 mt-2 rounded-md md:hidden block ">
@@ -86,12 +71,12 @@ const Tabss = ({ search }: { search: string }) => {
                 <img src="https://placehold.co/150x150?text=No%20Results" alt="Empty" className="w-1/4 mx-auto" />
               </div>
             )
-          }          
+          }
           <div className="grid grid-cols-1 gap-4">
             {filteredSpaces.map((space: any, i) => (
               <RentCard
                 id={space.id}
-                imageSrc={space.image}                
+                imageSrc={space.image}
                 location={space.address}
                 description={
                   space.description.length > 30

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FaMapMarkerAlt, FaUserFriends } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import { MdOutlineBedroomParent } from "react-icons/md";
 
 import Link from "next/link";

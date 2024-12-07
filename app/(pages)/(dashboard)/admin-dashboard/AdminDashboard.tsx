@@ -1,7 +1,7 @@
 import DataChart from "./DataChart";
 import DataTable from "./DataTable";
 
-export default () => {
+const AdminDashboard = () => {
   return (
     <div>
       <DataChart />
@@ -9,3 +9,5 @@ export default () => {
     </div>
   );
 };
+
+export default AdminDashboard;

@@ -1,3 +1,4 @@
+"use client";
 import { MdOutlineDashboard } from "react-icons/md";
 import { FaRegMap } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,13 +16,20 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-
-import { Home, Menu, PawPrint, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Home, Menu, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
 const Navbar = () => {
-  const isLogin = false;
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user_data") || "{}");
+    if (user.access_token) {
+      setIsLogin(true);
+    }
+  }, []);
 
   return (
     <div className="shadow-sm p-2 bg-gray-100 z-50 sticky top-0 ">

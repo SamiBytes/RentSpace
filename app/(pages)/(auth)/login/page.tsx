@@ -117,7 +117,7 @@ export default function Page() {
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href={"/signup"} className="text-primary  underline">
               Sign up
             </Link>

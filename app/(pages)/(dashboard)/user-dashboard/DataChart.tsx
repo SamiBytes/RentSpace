@@ -32,7 +32,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default () => {
+const DataChart = () => {
   return (
     <ChartContainer
       config={chartConfig}
@@ -69,3 +69,5 @@ export default () => {
     </ChartContainer>
   );
 };
+
+export default DataChart;

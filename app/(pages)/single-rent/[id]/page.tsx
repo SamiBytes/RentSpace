@@ -1,7 +1,5 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Phone } from "lucide-react";
-import { FaEnvelope, FaLifeRing, FaPhoneAlt } from "react-icons/fa";
 import Appointment from "./BookNow";
 import { useEffect, useState } from "react";
 import axios from "axios";
