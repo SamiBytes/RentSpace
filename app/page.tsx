@@ -5,7 +5,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import RentCard from "./(pages)/search/[id]/RentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 export default () => {
   const [spaces, setPet] = useState([]);
 
@@ -22,7 +21,7 @@ export default () => {
 
 
   return (
-    <div >
+    <div>
       <Hero />
       <Features />
 
