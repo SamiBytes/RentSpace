@@ -8,12 +8,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { month: "January", "Total Applicants": 120, "Rent Approved": 90, "Rent Rejected": 30 },
-  { month: "February", "Total Applicants": 150, "Rent Approved": 120, "Rent Rejected": 30 },
-  { month: "March", "Total Applicants": 100, "Rent Approved": 60, "Rent Rejected": 40 },
-  { month: "April", "Total Applicants": 180, "Rent Approved": 150, "Rent Rejected": 30 },
-  { month: "May", "Total Applicants": 220, "Rent Approved": 190, "Rent Rejected": 30 },
-  { month: "June", "Total Applicants": 250, "Rent Approved": 210, "Rent Rejected": 40 },
+  { month: "January", "Total Applicants": 120, "Rent Approved": 90, "Rent Rejected": 30 },  
 ];
 
 const chartConfig = {

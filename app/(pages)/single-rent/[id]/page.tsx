@@ -117,7 +117,9 @@ const RentDetails = ({ params }: { params: any }) => {
 
           {/* Action Buttons */}
           <div className="mt-8 flex gap-4">
-            <Appointment />
+            <Appointment id={
+              rentDetails.id
+            } />
           </div>
         </div>
       </div>

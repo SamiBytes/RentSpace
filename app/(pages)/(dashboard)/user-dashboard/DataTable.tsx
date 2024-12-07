@@ -1,4 +1,5 @@
 "use client";
+import { VscGitStashApply } from "react-icons/vsc";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,8 +35,20 @@ const ProductList = () => {
     created_at: string,
     verified: boolean,
   }
+  interface Application {
+    id: number,
+    total_days: number,
+    total_price: number,
+    booking_date: string,
+    created_at: string,
+    user: number,
+    rent_space: number,
+  }
 
+  const [seeApplications, setSeeApplications] = useState(false);
   const [RentalSpaces, setRentalSpaces] = useState<RentalSpace[]>([]);
+  const [Applications, setApplications] = useState<Application[]>([]);
+
   const fetchData = async () => {
     const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
     const res = await axios.get(
@@ -47,6 +60,19 @@ const ProductList = () => {
       }
     );
     setRentalSpaces(res.data);
+  };
+
+  const applicationFetchData = async () => {
+    const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_ROOT_URL}/users/application/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userData.access_token}`,
+        },
+      }
+    );
+    setApplications(res.data);
   };
 
   const deleteSpace = async (id: number) => {
@@ -64,6 +90,7 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchData();
+    applicationFetchData();
   }, []);
 
 
@@ -72,6 +99,10 @@ const ProductList = () => {
       <div className="flex items-center space-x-3">
         {/* addNewSpace */}
         <AddNewSpace fun={fetchData} />
+        <div className="mb-4 bg-[#008966] text-primary-foreground shadow hover:bg-primary/90 flex items-center px-2 py-2 rounded-md cursor-pointer">
+          <VscGitStashApply size={20} className="mr-2" />
+          See Applications
+        </div>
       </div>
 
       <Table>

@@ -16,6 +16,7 @@ import { PlusIcon } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
+
 const AddNewSpace = ({ fun }: { fun: Function }) => {
   const [newSpace, setNewSpace] = useState({
     image: "",
@@ -28,6 +29,8 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
     longitude: 0,
   });
 
+
+  
   const [image, setImage] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -123,11 +126,11 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <div className="mb-4 bg-[#008966] text-primary-foreground shadow hover:bg-primary/90 flex items-center px-2 py-2 rounded-md">
+        <div className="mb-4 bg-[#008966] text-primary-foreground shadow hover:bg-primary/90 flex items-center px-2 py-2 rounded-md cursor-pointer">
           <PlusIcon size={20} className="mr-2" />
           Add New Space
         </div>
-      </DialogTrigger>
+      </DialogTrigger>      
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add New Rental Space</DialogTitle>

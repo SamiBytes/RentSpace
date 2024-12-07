@@ -90,9 +90,6 @@ const ProductList = () => {
     fetchData();
   }
 
-
-
-
   useEffect(() => {
     fetchData();
   }, []);

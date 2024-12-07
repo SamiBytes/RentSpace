@@ -7,6 +7,7 @@ from users.serializers import (
     UserRegistrationSerializer,
     RentSpaceSerializer,
     UserSerializer,
+    ApplicationSerializer,
 )
 from users.models import RentSpace, Application, User
 
@@ -101,4 +102,25 @@ class ProfileView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ApplicationView(APIView):
+    permission_classes = [AuthenticateOnlyUser]
+
+    def get(self, request):
+        instances = Application.objects.filter(user=request.user)
+        serializer = ApplicationSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            instance = RentSpace.objects.get(id=serializer.validated_data["rent_space"].id)
+            
+            price = instance.price_per_day * serializer.validated_data["total_days"]
+            Application.objects.create(
+                **serializer.validated_data, user=request.user, total_price=price
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

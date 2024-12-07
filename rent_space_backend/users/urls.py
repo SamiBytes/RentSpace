@@ -5,6 +5,7 @@ from users.views import (
     ApplicationView,
     UserRegistrationView,
     ProfileView,
+    ApplicationSerializer,
 )
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path("public-rent-space/", PublicRentSpaceView.as_view(), name="public_rent_space"),
     path("application/", ApplicationView.as_view(), name="application"),
     path("profile/", ProfileView.as_view(), name="profile"),
+    path("application/", ApplicationView.as_view(), name="application"),
+    path("application/<int:pk>", ApplicationView.as_view(), name="application"),
 ]

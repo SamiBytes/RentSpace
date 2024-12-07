@@ -33,8 +33,6 @@ class RentSpace(models.Model):
     verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
 
 
 class Application(models.Model):
@@ -46,6 +44,7 @@ class Application(models.Model):
     )
     total_days = models.IntegerField()
     total_price = models.IntegerField()
+    booking_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

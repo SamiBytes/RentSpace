@@ -60,4 +60,5 @@ class ApplicationSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "user",
             "created_at",
+            "total_price",
         )
