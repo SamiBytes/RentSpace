@@ -5,8 +5,16 @@ import { FaEnvelope, FaLifeRing, FaPhoneAlt } from "react-icons/fa";
 import Appointment from "./BookNow";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import React from "react";
+// Define the type for params
+interface Params {
+  id: string; // or number depending on your actual param type
+}
 
-const RentDetails = ({ params }: { params: any }) => {
+const RentDetails = ({ params }: { params: Params | any }) => {
+  // Unwrap params and assert the type
+  const unwrappedParams = React.use(params) as Params; // Type assertion here
+
   const [rentDetails, setRentDetails] = useState({
     "id": 1,
     "image": "",
@@ -26,7 +34,7 @@ const RentDetails = ({ params }: { params: any }) => {
     const fetchingEncyclopedia = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/?id=${params.id}`,
+          `${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/?id=${unwrappedParams.id}`,
         );
         console.log(res.data);
         setRentDetails({
@@ -49,7 +57,7 @@ const RentDetails = ({ params }: { params: any }) => {
     };
 
     fetchingEncyclopedia();
-  }, [params.id]);
+  }, [unwrappedParams.id]);
 
   return (
     <div className="mt-3">
@@ -63,28 +71,31 @@ const RentDetails = ({ params }: { params: any }) => {
           </TabsList>
           <TabsContent value="image">
             <img
-              src={
-                rentDetails.image
-              }
+              src={rentDetails.image}
               alt="rent"
               className="rounded-2xl max-w-full h-auto shadow-md "
             />
           </TabsContent>
-          <TabsContent value="map">Map </TabsContent>
+          <TabsContent value="map">
+            <iframe
+              src={`https://maps.google.com/maps?q=${rentDetails.latitude},${rentDetails.longitude}&z=15&output=embed`}
+              width="100%"
+              height="400"
+              frameBorder="0"
+              style={{ border: 0 }}
+              allowFullScreen
+            ></iframe>
+          </TabsContent>
         </Tabs>
-        {/* </div> */}
 
         {/* Rent Details */}
         <div className="w-full md:w-1/2">
-          {/* Rent Name */}
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            {/* {rentDetails. */}
+            {/* Rent Name */}
           </h1>
 
-          {/* Rent Description */}
           <p className="text-gray-600 mb-6">{rentDetails.description}</p>
 
-          {/* Rent Information */}
           <div className="space-y-3">
             <p>
               <span className="font-semibold text-gray-700">Price:</span>{" "}
@@ -115,11 +126,8 @@ const RentDetails = ({ params }: { params: any }) => {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="mt-8 flex gap-4">
-            <Appointment id={
-              rentDetails.id
-            } />
+            <Appointment id={rentDetails.id} />
           </div>
         </div>
       </div>

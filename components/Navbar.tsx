@@ -1,3 +1,5 @@
+import { MdOutlineDashboard } from "react-icons/md";
+import { FaRegMap } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   NavigationMenu,
@@ -81,7 +83,17 @@ const NavItems = () => {
             className="inline-flex h-9 items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground focus:outline-none"
             href="/profile-dashboard"
           >
+            <MdOutlineDashboard className="mr-2 h-4 w-4" />
             Profile/Dashboard
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link
+            className="inline-flex h-9 items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground focus:outline-none"
+            href="/map"
+          >
+            <FaRegMap className="mr-2 h-4 w-4" />
+            Map
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -109,7 +121,7 @@ const MobileNav = () => {
           <SheetDescription></SheetDescription>
         </SheetHeader>
         <div className="flex flex-col space-y-4 md:hidden">
-          
+
           <nav className="flex flex-col space-y-2">
             <SheetClose asChild className="flex items-start justify-start">
               <Link href="/" className="text-sm hover:underline">

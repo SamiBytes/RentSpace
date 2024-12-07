@@ -30,7 +30,7 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
   });
 
 
-  
+
   const [image, setImage] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -77,7 +77,11 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
       const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
       await axios.post(
         `${process.env.NEXT_PUBLIC_ROOT_URL}/users/rent-space/`,
-        newSpace,
+        {
+          ...newSpace,
+          latitude,
+          longitude,
+        },
         {
           headers: {
             Authorization: `Bearer ${userData.access_token}`,
@@ -130,7 +134,7 @@ const AddNewSpace = ({ fun }: { fun: Function }) => {
           <PlusIcon size={20} className="mr-2" />
           Add New Space
         </div>
-      </DialogTrigger>      
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add New Rental Space</DialogTitle>

@@ -64,8 +64,7 @@ const Tabss = ({ search }: { search: string }) => {
       <Tabs defaultValue="Hotels" className="mb-8">
         <div className="flex items-center justify-between">
           <TabsList>
-            <TabsTrigger value="Hotels">Available Rents</TabsTrigger>
-            <TabsTrigger value="Map">Map View</TabsTrigger>
+            <TabsTrigger value="Hotels">Available Rents</TabsTrigger>            
           </TabsList>          
         </div>
         <Sheet>
@@ -107,10 +106,7 @@ const Tabss = ({ search }: { search: string }) => {
           </div>
         </TabsContent>
 
-        <TabsContent value="Map">
-          {/* Map Component */}
-          {/* <MapComponent /> */}
-        </TabsContent>
+        {/*  */}
       </Tabs>
     </div>
   );
