@@ -26,7 +26,7 @@ const RentDetails = ({ params }: { params: any }) => {
     const fetchingEncyclopedia = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/users/public-rent-space/?id=${params.id}`,
+          `${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/?id=${params.id}`,
         );
         console.log(res.data);
         setRentDetails({
@@ -63,7 +63,9 @@ const RentDetails = ({ params }: { params: any }) => {
           </TabsList>
           <TabsContent value="image">
             <img
-              src="/img1.jpg"
+              src={
+                rentDetails.image
+              }
               alt="rent"
               className="rounded-2xl max-w-full h-auto shadow-md "
             />
@@ -76,7 +78,7 @@ const RentDetails = ({ params }: { params: any }) => {
         <div className="w-full md:w-1/2">
           {/* Rent Name */}
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            {rentDetails.title}
+            {/* {rentDetails. */}
           </h1>
 
           {/* Rent Description */}
@@ -86,61 +88,29 @@ const RentDetails = ({ params }: { params: any }) => {
           <div className="space-y-3">
             <p>
               <span className="font-semibold text-gray-700">Price:</span>{" "}
-              <span className="text-xl font-semibold">{rentDetails.price}</span>
+              <span className="text-xl font-semibold">{rentDetails.price_per_day}</span>
               $/night
             </p>
 
             <p>
               <span className="font-semibold text-gray-700">Location:</span>{" "}
-              {rentDetails.location}
+              {rentDetails.address}
             </p>
             <p>
               <span className="font-semibold text-gray-700">
                 Available Rooms:
               </span>{" "}
-              {rentDetails.availableRooms}
+              {rentDetails.room_vacancy}
             </p>
             <div>
-              <div className="font-semibold text-gray-700  mb-2">Contact:</div>
               <div className="border p-4 rounded-md bg-gray-50 shadow-sm space-y-4">
-                {/* Hotel Name */}
-                <div className="flex items-center text-gray-700 space-x-2">
-                  <Phone size={20} className="text-primary" />
-                  <span className="font-medium">Hotel Prince Natore</span>
-                </div>
+                <h1>
+                  Details
+                </h1>
                 <hr className="border-gray-300" />
-
-                {/* Contact Details */}
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2 text-gray-700">
-                    <FaPhoneAlt className="text-primary" />
-                    <span>
-                      Call -{" "}
-                      <a
-                        href="tel:+8801713243663"
-                        className="hover:underline text-blue-600"
-                      >
-                        +88-0171-324-3663
-                      </a>
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-gray-700">
-                    <FaEnvelope className="text-primary" />
-                    <span>
-                      Email -{" "}
-                      <a
-                        href="mailto:contact@gmail.com"
-                        className="hover:underline text-blue-600"
-                      >
-                        contact@gmail.com
-                      </a>
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-gray-700">
-                    <FaLifeRing className="text-primary" />
-                    <span>HelpLine - 899548</span>
-                  </div>
-                </div>
+                <p>
+                  {rentDetails.description}
+                </p>
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ export default function SearchForm() {
 
   const handleSubmit =(e:any)=>{
     e.preventDefault();
-    router.push("/search/1");
+    router.push(`/search/${category}`);
     
   }
 

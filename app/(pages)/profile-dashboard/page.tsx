@@ -18,7 +18,7 @@ export default () => {
 
   useEffect(() => {
     const User_Data = JSON.parse(localStorage.getItem("user_data") || "{}");
-    setIsAdmin(User_Data.is_admin);
+    setIsAdmin(User_Data.admin);
 
     if (!User_Data.access_token) {
       location.href = "/login";

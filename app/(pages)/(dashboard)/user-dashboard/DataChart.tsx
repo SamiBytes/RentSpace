@@ -10,40 +10,10 @@ import {
 
 const chartData = [
   {
-    month: "January",
+    month: "Graph Analysis",
     "Total Spaces": 100,
     "Available Spaces": 80,
     "Booked Spaces": 22,
-  },
-  {
-    month: "February",
-    "Total Spaces": 305,
-    "Available Spaces": 200,
-    "Booked Spaces": 43,
-  },
-  {
-    month: "March",
-    "Total Spaces": 237,
-    "Available Spaces": 120,
-    "Booked Spaces": 64,
-  },
-  {
-    month: "April",
-    "Total Spaces": 73,
-    "Available Spaces": 190,
-    "Booked Spaces": 54,
-  },
-  {
-    month: "May",
-    "Total Spaces": 209,
-    "Available Spaces": 130,
-    "Booked Spaces": 62,
-  },
-  {
-    month: "June",
-    "Total Spaces": 214,
-    "Available Spaces": 140,
-    "Booked Spaces": 70,
   },
 ];
 

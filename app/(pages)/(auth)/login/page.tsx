@@ -34,15 +34,15 @@ export default function Page() {
         }
       );
 
-      const { access, refresh, is_user, is_admin, user } = res.data;
+      const { access, refresh, normal_user, admin, user } = res.data;
 
 
       const userData = {
         access_token: access,
         refresh_token: refresh,
         user,
-        is_user,
-        is_admin,
+        normal_user,
+        admin,
       };
       localStorage.setItem("user_data", JSON.stringify(userData));
 

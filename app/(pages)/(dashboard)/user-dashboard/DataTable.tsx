@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,64 +17,68 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDeleteForever } from "react-icons/md";
 import AddNewSpace from "./AddNewSpace";
 import EditSpaceDetails from "./EditSpaceDetails";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ProductList = () => {
-  const RentalSpaces = [
-    {
-      title: "Modern Apartment",
-      location: "Dhaka, Bangladesh",
-      price: "$800/month",
-      status: "Available",
-    },
-    {
-      title: "Modern Apartment",
-      location: "Dhaka, Bangladesh",
-      price: "$800/month",
-      status: "Available",
-    },
-    {
-      title: "Modern Apartment",
-      location: "Dhaka, Bangladesh",
-      price: "$800/month",
-      status: "Available",
-    },
-    {
-      title: "Modern Apartment",
-      location: "Dhaka, Bangladesh",
-      price: "$800/month",
-      status: "Available",
-    },
-    {
-      title: "Modern Apartment",
-      location: "Dhaka, Bangladesh",
-      price: "$800/month",
-      status: "Available",
-    },
-    {
-      title: "Cozy Studio",
-      location: "Chattogram, Bangladesh",
-      price: "$500/month",
-      status: "Booked",
-    },
-    {
-      title: "Luxury Villa",
-      location: "Sylhet, Bangladesh",
-      price: "$2000/month",
-      status: "Available",
-    },
-  ];
+  interface RentalSpace {
+    id: number,
+    image: string,
+    address: string,
+    room_type: string,
+    room_vacancy: number,
+    price_per_day: number,
+    description: string,
+    latitude: number,
+    longitude: number,
+    created_at: string,
+    verified: boolean,
+  }
+
+  const [RentalSpaces, setRentalSpaces] = useState<RentalSpace[]>([]);
+  const fetchData = async () => {
+    const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_ROOT_URL}/users/rent-space/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userData.access_token}`,
+        },
+      }
+    );
+    setRentalSpaces(res.data);
+  };
+
+  const deleteSpace = async (id: number) => {
+    const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_ROOT_URL}/users/rent-space/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userData.access_token}`,
+        },
+      }
+    );
+    fetchData();
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
   return (
     <div>
       <div className="flex items-center space-x-3">
         {/* addNewSpace */}
-        <AddNewSpace />
+        <AddNewSpace fun={fetchData} />
       </div>
-     
+
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Space Name</TableHead>
-            <TableHead>Location</TableHead>
+            <TableHead>Space Address</TableHead>
+            <TableHead>Vacany</TableHead>
             <TableHead>Price</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -82,21 +87,21 @@ const ProductList = () => {
         <TableBody>
           {RentalSpaces.map((item, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{item.title}</TableCell>
-              <TableCell>{item.location}</TableCell>
-              <TableCell>{item.price}</TableCell>
-              <TableCell>{item.status}</TableCell>
+              <TableCell className="font-medium">{item.address}</TableCell>
+              <TableCell>{item.room_vacancy}</TableCell>
+              <TableCell>{item.price_per_day}</TableCell>
+              <TableCell>{item.verified ? "Verified" : "Not Verified"}</TableCell>
               <TableCell className="text-right flex items-end justify-end cursor-pointer">
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <BsThreeDotsVertical size={18} />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem className="text-red-500 cursor-pointer">
+                    <DropdownMenuItem className="text-red-500 cursor-pointer" onClick={() => deleteSpace(item.id)}>
                       <MdDeleteForever className="mr-2" />
                       Delete
                     </DropdownMenuItem>
-                    <EditSpaceDetails/>
+                    <EditSpaceDetails data={item} fun={fetchData} />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
