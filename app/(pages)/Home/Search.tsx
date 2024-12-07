@@ -14,16 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
-
 export default function SearchForm() {
-  const router =  useRouter();
+  const router = useRouter();
   const [category, setCategory] = React.useState("all");
+  const [searchTerm, setSearchTerm] = React.useState("");
 
-  const handleSubmit =(e:any)=>{
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push(`/search/${category}`);
-    
-  }
+    const query = searchTerm ? `?search=${encodeURIComponent(searchTerm)}` : "";
+    router.push(`/search/${category}${query}`);
+  };
 
   return (
     <form
@@ -31,23 +31,14 @@ export default function SearchForm() {
       onSubmit={handleSubmit}
     >
       <div className="flex">
-        <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="w-[180px] rounded-r-none border-r-0">
-            <SelectValue placeholder="All categories" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Properties</SelectItem>
-            <SelectItem value="apartments">Apartments</SelectItem>
-            <SelectItem value="houses">Houses</SelectItem>
-            <SelectItem value="commercial">Commercial Spaces</SelectItem>
-          </SelectContent>
-        </Select>
         <div className="relative w-full">
           <Input
             type="search"
-            placeholder="Search properties, apartments, houses..."
-            className="w-full rounded-l-none pl-4 pr-[3.5rem] text-white placeholder-gray-500"
-          /> 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search Rents with location"
+            className="w-full rounded-l-md pl-4 pr-[3.5rem] text-white placeholder-gray-500 bg-black/50 backdrop-blur-md"
+          />
           <Button
             variant={"outline"}
             className="absolute top-0 right-0 h-full rounded-l-none"

@@ -31,19 +31,32 @@ const MapComponent = dynamic(() => import('@/app/(pages)/search/[id]/Map'), {
   ssr: false,
 });
 
-const Tabss = () => {
-  const [spaces, setPet] = useState([]);
+const Tabss = ({ search }: { search: string }) => {
+  const [spaces, setSpaces] = useState([]);
+  const [filteredSpaces, setFilteredSpaces] = useState([]);
 
   useEffect(() => {
+    // Fetch data from API
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/`,
-      )
+      .get(`${process.env.NEXT_PUBLIC_ROOT_URL}/users/public-rent-space/`)
       .then((res) => {
-        setPet(res.data);
-      })
+        setSpaces(res.data);
+      });
   }, []);
 
+  useEffect(() => {
+    // Filter spaces based on the search term
+    if (search) {
+      const lowerCaseSearch = search.toLowerCase();
+      setFilteredSpaces(
+        spaces.filter((space: any) =>
+          space.address.toLowerCase().includes(lowerCaseSearch)
+        )
+      );
+    } else {
+      setFilteredSpaces(spaces); // Show all spaces if no search term
+    }
+  }, [spaces]);
 
   return (
     <div className="max-w-7xl mx-auto mt-8">
@@ -53,11 +66,12 @@ const Tabss = () => {
           <TabsList>
             <TabsTrigger value="Hotels">Available Rents</TabsTrigger>
             <TabsTrigger value="Map">Map View</TabsTrigger>
-          </TabsList>
-          <Sort />
+          </TabsList>          
         </div>
         <Sheet>
-          <SheetTrigger className="bg-[#008966] text-white px-2 py-1 mt-2 rounded-md md:hidden block ">Filter</SheetTrigger>
+          <SheetTrigger className="bg-[#008966] text-white px-2 py-1 mt-2 rounded-md md:hidden block ">
+            Filter
+          </SheetTrigger>
           <SheetContent>
             <SheetTitle>Filter</SheetTitle>
             <Filter />
@@ -67,16 +81,24 @@ const Tabss = () => {
 
         <TabsContent value="Hotels" className="p-4 rounded-lg">
           {/* Grid for Cards */}
+          {
+            filteredSpaces.length === 0 && (
+              <div className="text-center text-gray-500">
+                <img src="https://placehold.co/150x150?text=No%20Results" alt="Empty" className="w-1/4 mx-auto" />
+              </div>
+            )
+          }          
           <div className="grid grid-cols-1 gap-4">
-            {spaces.map((space: any, i) => (
+            {filteredSpaces.map((space: any, i) => (
               <RentCard
                 id={space.id}
-                imageSrc={
-                  space.image
-                }
-                title={space.title}
+                imageSrc={space.image}                
                 location={space.address}
-                description={space.description.length > 30 ? space.description.substring(0, 30) + "..." : space.description}
+                description={
+                  space.description.length > 30
+                    ? space.description.substring(0, 30) + "..."
+                    : space.description
+                }
                 key={i}
                 price={space.price_per_day}
                 room={space.room_vacancy}
@@ -95,22 +117,3 @@ const Tabss = () => {
 };
 
 export default Tabss;
-
-const Sort = () => {
-  return (
-    <div>
-      <Select>
-        <SelectTrigger>
-          <SelectValue placeholder="Sort By:" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Sort</SelectLabel>
-            <SelectItem value="price-low">Low to High</SelectItem>
-            <SelectItem value="price-high">High to Low</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-};

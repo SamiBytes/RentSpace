@@ -8,6 +8,7 @@ from users.serializers import (
     RentSpaceSerializer,
     UserSerializer,
     ApplicationSerializer,
+    ViewApplicationSerializer
 )
 from users.models import RentSpace, Application, User
 
@@ -110,7 +111,7 @@ class ApplicationView(APIView):
 
     def get(self, request):
         instances = Application.objects.filter(user=request.user)
-        serializer = ApplicationSerializer(instances, many=True)
+        serializer = ViewApplicationSerializer(instances, many=True)
         return Response(serializer.data)
 
     def post(self, request):

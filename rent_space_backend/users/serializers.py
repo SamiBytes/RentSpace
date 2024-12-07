@@ -53,6 +53,17 @@ class RentSpaceSerializer(serializers.ModelSerializer):
         )
 
 
+class ViewApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = "__all__"
+        read_only_fields = (
+            "user",
+            "created_at",
+            "total_price",
+        )
+        depth = 1
+
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
