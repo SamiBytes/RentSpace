@@ -8,7 +8,7 @@ from users.serializers import (
     RentSpaceSerializer,
     UserSerializer,
     ApplicationSerializer,
-    ViewApplicationSerializer
+    ViewApplicationSerializer,
 )
 from users.models import RentSpace, Application, User
 
@@ -37,7 +37,7 @@ class RentSpaceView(APIView):
             serializer = RentSpaceSerializer(instance)
             return Response(serializer.data)
 
-        instances = RentSpace.objects.filter(user=request.user)
+        instances = RentSpace.objects.filter(user=request.user).order_by("-id")
         serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
 
@@ -69,25 +69,10 @@ class PublicRentSpaceView(APIView):
             serializer = RentSpaceSerializer(instance)
             return Response(serializer.data)
 
-        instances = RentSpace.objects.filter(verified=True)
+        instances = RentSpace.objects.filter(verified=True).order_by("-id")
         serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
 
-
-class ApplicationView(APIView):
-    permission_classes = [AuthenticateOnlyUser]
-
-    def get(self, request):
-        instances = Application.objects.filter(user=request.user)
-        serializer = RentSpaceSerializer(instances, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = RentSpaceSerializer(data=request.data)
-        if serializer.is_valid():
-            Application.objects.create(**serializer.validated_data, user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileView(APIView):
@@ -110,15 +95,17 @@ class ApplicationView(APIView):
     permission_classes = [AuthenticateOnlyUser]
 
     def get(self, request):
-        instances = Application.objects.filter(user=request.user)
+        instances = Application.objects.filter(user=request.user).order_by("-id")
         serializer = ViewApplicationSerializer(instances, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         serializer = ApplicationSerializer(data=request.data)
         if serializer.is_valid():
-            instance = RentSpace.objects.get(id=serializer.validated_data["rent_space"].id)
-            
+            instance = RentSpace.objects.get(
+                id=serializer.validated_data["rent_space"].id
+            )
+
             price = instance.price_per_day * serializer.validated_data["total_days"]
             Application.objects.create(
                 **serializer.validated_data, user=request.user, total_price=price

@@ -82,7 +82,7 @@ class RentSpaceApproveView(APIView):
     permission_classes = [AuthenticateOnlyAdmin]
 
     def get(self, request):
-        instances = RentSpace.objects.filter(verified=False)
+        instances = RentSpace.objects.filter(verified=False).order_by("-id")
         serializer = RentSpaceSerializer(instances, many=True)
         return Response(serializer.data)
 
