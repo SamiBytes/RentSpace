@@ -73,7 +73,7 @@ class NewCustomConfirmEmailView(ConfirmEmailView):
 
         if email_confirmation:
             email_confirmation.confirm(self.request)
-            return redirect("/confirmation-success")
+            return redirect("https://rent-space-1kl9.vercel.app/confirmation-email")
         else:
             return HttpResponse("Invalid or expired confirmation token", status=400)
 
