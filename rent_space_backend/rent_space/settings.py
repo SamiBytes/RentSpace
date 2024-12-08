@@ -26,6 +26,7 @@ SECRET_KEY = "django-insecure-9w3j3+34wt)$%ci*cj%eoyk3z6qmuc5yo!tcl$tedbx@tg%qet
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ["https://c2d4fe75-76f5.healthparkbd.com"]
 
 # Application definition
 
