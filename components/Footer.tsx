@@ -27,7 +27,9 @@ export default function Footer() {
           <ul className="space-y-2 text-gray-300">
             <li>Email: <a href="mailto:info@rentspace.com" className="hover:text-white">info@rentspace.com</a></li>
             <li>Phone: <a href="tel:+1234567890" className="hover:text-white">+1 (234) 567-890</a></li>
-            <li>Address: 123 Main Road, Rajshahi, Bangladesh</li>
+            <li>
+              Dublin, Leinster, Ireland
+            </li>
           </ul>
         </div>
       </div>
