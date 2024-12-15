@@ -45,7 +45,7 @@ const Navbar = () => {
         {/* login */}
         {isLogin ? (
           <>
-            <Link href="/profile" className="hidden md:flex">
+            <Link href="/profile-dashboard" className="hidden md:flex">
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
