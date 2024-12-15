@@ -51,29 +51,31 @@ const MapComponent = () => {
                 width: '100%',           // Full width
             }}
         >
-            <div style={{ height: '800px', width: '80%' }}>
-                <MapContainer
-                    center={[52.1326, 5.2913]}
-                    zoom={2}
-                    style={{ height: '100%', width: '100%' }}
-                >
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    {
-                        spaces.map((item: any) => (
-                            <Marker position={[item.latitude, item.longitude]} icon={customIcon} key={item.id}>
-                                <Popup>
-                                    {item.name}
-                                </Popup>
-                            </Marker>
-                        ))
-                    }
-                    {/* Focus the map on the first marker */}
-                    {spaces.length > 0 && <FocusMap latitude={spaces[0].latitude} longitude={spaces[0].longitude} />}
-                </MapContainer>
-            </div>
+            {spaces.length > 0 &&
+                <div style={{ height: '800px', width: '80%' }}>
+                    <MapContainer
+                        center={[52.1326, 5.2913]}
+                        zoom={2}
+                        style={{ height: '100%', width: '100%' }}
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        {
+                            spaces.map((item: any) => (
+                                <Marker position={[item.latitude, item.longitude]} icon={customIcon} key={item.id}>
+                                    <Popup>
+                                        {item.name}
+                                    </Popup>
+                                </Marker>
+                            ))
+                        }
+                        {/* Focus the map on the first marker */}
+                        {spaces.length > 0 && <FocusMap latitude={spaces[0].latitude} longitude={spaces[0].longitude} />}
+                    </MapContainer>
+                </div>
+            }
         </div>
     );
 };
